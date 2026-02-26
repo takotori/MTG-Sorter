@@ -66,7 +66,7 @@ class CardAnalyzer(
                             // Combined score
                             val score = horizontalFactor * verticalFactor * sizeFactor
                             
-                            if (score > 0.01f) {
+                            if (score > 0.001f) {
                                 Pair(block, score)
                             } else {
                                 null
@@ -85,7 +85,7 @@ class CardAnalyzer(
                         }
 
                         val detectedName = bestBlock?.text?.trim()?.replace("\n", " ")
-                        if (detectedName != null && detectedName.isNotBlank() && detectedName.length > 3) {
+                        if (detectedName != null && detectedName.isNotBlank() && detectedName.length >= 3) {
                             onTextDetected(detectedName)
                         }
                     }

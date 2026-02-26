@@ -9,18 +9,24 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -39,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.mtg_sorter.data.model.LoadedDeck
 import com.example.mtg_sorter.data.model.ScryfallCard
 import com.example.mtg_sorter.ui.CameraPreview
 import com.example.mtg_sorter.ui.ScannerViewModel
@@ -160,6 +167,12 @@ fun ScannerOverlay(viewModel: ScannerViewModel) {
     val scannedCard by viewModel.scannedCard.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
 
+    var showDeckDialog by remember { mutableStateOf(false) }
+    var deckInput by remember { mutableStateOf("") }
+
+    val decks by viewModel.decks.collectAsState()
+    val matches = viewModel.computeMatchesFor(scannedCard?.name)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -172,11 +185,60 @@ fun ScannerOverlay(viewModel: ScannerViewModel) {
                 .background(Color.Black.copy(alpha = 0.5f))
                 .padding(8.dp)
         ) {
-            Text(
-                text = "Detected: $detectedText",
-                color = Color.White,
-                fontSize = 14.sp
-            )
+            Column {
+                Text(
+                    text = "Detected: ${scannedCard?.name ?: "scanning"}",
+                    color = Color.White,
+                    fontSize = 14.sp
+                )
+                if (decks.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Active Decks: ${decks.size}",
+                        color = Color.White.copy(alpha = 0.7f),
+                        fontSize = 12.sp
+                    )
+                }
+            }
+        }
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Button(onClick = { showDeckDialog = true }) {
+                Text("Add deck")
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Overall Deck Progress
+        if (decks.isNotEmpty()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Black.copy(alpha = 0.3f))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = "Deck Progress:",
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                decks.forEach { deck ->
+                    val missing = deck.totalCards - deck.totalCollected
+                    Text(
+                        text = "${deck.name}: ${deck.totalCollected}/${deck.totalCards} (Missing: $missing)",
+                        color = Color.White,
+                        fontSize = 11.sp
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -185,9 +247,84 @@ fun ScannerOverlay(viewModel: ScannerViewModel) {
             CircularProgressIndicator(color = Color.White)
         }
 
-        scannedCard?.let { card ->
-            CardInfo(card)
+        if (scannedCard != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.9f))
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = "Put into:",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                if (matches.isEmpty()) {
+                    Text(
+                        text = "No matching deck yet",
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                    )
+                } else {
+                    matches.forEach { m ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "${m.deckName}: ${m.collected}/${m.total}",
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Button(
+                                onClick = { viewModel.sortCardIntoDeck(m.deckId, scannedCard!!.name) },
+                                enabled = m.collected < m.total
+                            ) {
+                                Text("Add")
+                            }
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    if (showDeckDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeckDialog = false },
+            title = { Text("Add Moxfield deck") },
+            text = {
+                Column {
+                    Text("Enter deck ID or URL")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    OutlinedTextField(
+                        value = deckInput,
+                        onValueChange = { deckInput = it },
+                        modifier = Modifier.fillMaxWidth(),
+                        label = { Text("Deck ID or URL") }
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.addDeck(deckInput)
+                    showDeckDialog = false
+                    deckInput = ""
+                }) {
+                    Text("Add")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeckDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }
 

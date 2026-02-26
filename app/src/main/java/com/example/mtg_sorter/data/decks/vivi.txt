@@ -1,0 +1,76 @@
+1x Aetherflux Reservoir (plst) KLD-192
+1x An Offer You Can't Refuse (slp) 7
+1x Arcane Signet (fic) 332
+1x Archmage Emeritus (fic) 261
+1x Archmage of Runes (fdn) 304
+1x Ashling, Flame Dancer (mh3) 367
+1x Balmor, Battlemage Captain (fdn) 237
+1x Baral, Chief of Compliance (sld) 2168
+1x Blasphemous Act (ecc) 89
+1x Brainstorm (fca) 28
+1x Bria, Riptide Rogue (blb) 379
+1x Cavern of Souls (ltc) 362
+1x Chaos Warp (blc) 115
+1x Command Tower (fic) 382
+1x Consider (tdc) 148
+1x Coruscation Mage (blb) 131
+1x Crackle with Power (stx) 308
+1x Curiosity (wot) 17
+1x Displacer Kitten (mb2) 27
+1x Electrostatic Field (plst) GRN-97
+1x Enter the Enigma (dsk) 52
+1x Exalted Flamer of Tzeentch (40k) 119
+1x Exotic Orchard (who) 276
+1x Fellwar Stone (ecc) 141
+1x Fiery Inscription (ltr) 577
+1x Fiery Islet (acr) 112
+1x Finale of Revelation (fdn) 589
+1x Fireball (clb) 175
+1x Firebrand Archer (fdn) 196
+1x Fists of Flame (j25) 550
+1x Frantic Search (sld) 228
+1x Goblin Electromancer (tdc) 99
+1x Guttersnipe (tdc) 217
+1x Harmonic Prodigy (mh2) 132
+1x Haze of Rage (tsr) 169
+1x Into the Flood Maw (blb) 52
+14x Island (fin) 298
+1x Izzet Signet (tdc) 320
+1x Jaya's Immolating Inferno (sld) 1063
+1x Kessig Flamebreather (vow) 164
+1x Marvin, Murderous Mimic (dsk) 367
+12x Mountain (fin) 303
+1x Negate (fdn) 710
+1x Niv-Mizzet, Visionary (fdn) 350
+1x Ophidian Eye (plst) TSP-70
+1x Opt (sta) 19
+1x Otawara, Soaring City (neo) 503
+1x Past in Flames (40k) 206
+1x Pongify (tdc) 160
+1x Preordain (sch) 39
+1x Quicksilver Elemental (mrd) 47
+1x Rapid Hybridization (tdc) 162
+1x Riverglide Pathway // Lavaglide Pathway (znr) 289
+1x Riverpyre Verge (dft) 372
+1x Roaming Throne (lci) 258
+1x Seething Anger (plst) STH-96
+1x Serum Visions (otc) 112
+1x Shivan Reef (dmu) 380
+1x Sigil of Sleep (ddi) 25
+1x Slip Through Space (plst) OGW-47
+1x Snap (dmr) 66
+1x Sol Ring (fic) 356
+1x Steam Vents (ecl) 348
+1x Storm-Kiln Artist (cmm) 644
+1x Stormcatch Mentor (blb) 234
+1x Strike It Rich (mh2) 143
+1x Sulfur Falls (eoc) 184
+1x Swan Song (sld) 1591
+1x Talisman of Creativity (tdc) 330
+1x Tandem Lookout (plst) MM3-53
+1x Thought Vessel (lcc) 118
+1x Training Center (cmm) 665
+1x Vadrik, Astral Archmage (mid) 248
+1x Veyran, Voice of Duality (sld) 1915
+1x Vivi Ornitier (fin) 570
+1x Will of the Jeskai (tdc) 80

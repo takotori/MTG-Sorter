@@ -1,0 +1,79 @@
+1x Akroma's Will (fca) 21
+1x Angel (totj) 2
+1x Angel (tdsc) 2
+1x Angel (ttdc) 2
+1x Angel of Destiny (znr) 2
+1x Angel of Finality (afc) 63
+1x Angel of Jubilation (avr) 2
+1x Angel of Vitality (m20) 4
+1x Angelic Accord (ima) 7
+1x Angelic Field Marshal (c14) 2
+1x Angelic Skirmisher (gtc) 3
+1x Angelic Sleuth (ncc) 12
+1x Arcane Signet (fic) 333
+1x Archaeomancer's Map (lcc) 101
+1x Archangel of Thune (2xm) 5
+1x Archangel of Tithes (ori) 4
+1x Austere Command (ncc) 193
+1x Avacyn, Angel of Hope (prm) 82864
+1x Baneslayer Angel (m21) 6
+1x Bishop of Wings (m20) 8
+1x Bonders' Enclave (eos) 4
+1x Brave the Elements (c14) 66
+1x Breathkeeper Seraph (voc) 31
+1x Bruna, the Fading Light (sld) 1388
+1x Court of Grace (sld) 1338
+1x Dawn of Hope (wot) 2
+1x Eiganjo, Seat of the Empire (neo) 268
+1x Emeria Shepherd (znc) 16
+1x Emeria, the Sky Ruin (plst) ZEN-213
+1x Emeria's Call // Emeria, Shattered Skyclave (znr) 12
+1x Empyrial Storm (c18) 2
+1x Endless Horizons (eve) 4
+1x Esper Sentinel (mh2) 12
+1x Farewell (neo) 417
+1x Flawless Maneuver (tle) 306
+1x Generous Gift (ncc) 201
+1x Giada, Font of Hope (sld) 1586
+1x Gisela, the Broken Blade (sld) 1387
+1x Guildless Commons (cmr) 351
+1x Heliod's Intervention (thb) 19
+1x Herald of War (mic) 86
+1x Herald's Horn (c17) 53
+1x Inspiring Overseer (sld) 1523
+1x Karmic Guide (sld) 1911
+1x Land Tax (plst) BBD-94
+1x Lightning Greaves (fic) 349
+1x Linvala, Keeper of Silence (jmp) 119
+1x Luminarch Ascension (a25) 23
+1x Lyra Dawnbringer (dmr) 413
+1x Mind Stone (fic) 353
+1x Myriad Landscape (ltc) 534
+1x Nykthos, Shrine to Nyx (ppro) 2022-3
+1x Nyx Lotus (prm) 79917
+1x Oketra's Monument (akh) 233
+1x Path of Ancestry (ncc) 419
+1x Path to Exile (ncc) 208
+1x Pearl Medallion (mh3) 347
+25x Plains (neo) 294
+1x Resplendent Angel (m19) 34
+1x Righteous Valkyrie (khm) 24
+1x Sanctuary Warden (snc) 30
+1x Sephara, Sky's Blade (m20) 36
+1x Seraph Sanctuary (ddq) 33
+1x Serra's Emissary (mh2) 30
+1x Sigarda's Splendor (mid) 33
+1x Sigarda's Vanguard (mic) 8
+1x Smothering Tithe (wot) 67
+1x Sol Ring (sld) 1604
+1x Speaker of the Heavens (plst) M21-38
+1x Starnheim Aspirant (khm) 380
+1x Starnheim Unleashed (khm) 33
+1x Sword of the Animist (fic) 362
+1x Swords to Plowshares (pf25) 12
+1x Teferi's Protection (sta) 11
+1x The Book of Exalted Deeds (afr) 4
+1x Urza's Incubator (cm2) 228
+1x Valkyrie Harbinger (khm) 374
+1x Vanquisher's Banner (xln) 251
+1x War Room (cmr) 361
