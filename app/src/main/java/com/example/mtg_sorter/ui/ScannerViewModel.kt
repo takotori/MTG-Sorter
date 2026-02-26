@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class)
@@ -32,6 +33,9 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _isScanLocked = MutableStateFlow(false)
+    val isScanLocked = _isScanLocked.asStateFlow()
+
     // Loaded Moxfield decks
     private val _decks = MutableStateFlow<List<LoadedDeck>>(emptyList())
     val decks = _decks.asStateFlow()
@@ -42,6 +46,7 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                 .debounce(150)
                 .distinctUntilChanged()
                 .collect { text ->
+                    if (_isScanLocked.value) return@collect
                     if (text.length >= 3) {
                         searchCard(text)
                     }
@@ -53,6 +58,8 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     private val BUFFER_SIZE = 3
 
     fun onTextDetected(text: String) {
+        if (_isScanLocked.value) return
+
         // Temporal filtering to stabilize detection
         detectionsBuffer.add(text)
         if (detectionsBuffer.size > BUFFER_SIZE) {
@@ -163,15 +170,23 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
             try {
                 // Try local database first
                 val localCard = dbHelper.getCardByName(name)
-                if (localCard != null) {
-                    _scannedCard.value = localCard
-                    return@launch
+                val card = localCard ?: run {
+                    println("search card: $name")
+                    val response = RetrofitClient.instance.getCardNamedFuzzy(name)
+                    if (response.isSuccessful) response.body() else null
                 }
 
-                println("search card: $name")
-                val response = RetrofitClient.instance.getCardNamedFuzzy(name)
-                if (response.isSuccessful) {
-                    _scannedCard.value = response.body()
+                _scannedCard.value = card
+
+                if (card != null) {
+                    val matches = computeMatchesFor(card.name)
+                    if (matches.isNotEmpty()) {
+                        _isScanLocked.value = true
+                        delay(2000)
+                        detectionsBuffer.clear()
+                        _detectedText.value = ""
+                        _isScanLocked.value = false
+                    }
                 }
             } catch (e: Exception) {
                 _scannedCard.value = null
