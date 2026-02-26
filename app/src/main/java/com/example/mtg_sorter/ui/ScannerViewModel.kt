@@ -36,8 +36,25 @@ class ScannerViewModel : ViewModel() {
         }
     }
 
+    private val detectionsBuffer = mutableListOf<String>()
+    private val BUFFER_SIZE = 3
+
     fun onTextDetected(text: String) {
-        _detectedText.value = text
+        // Temporal filtering to stabilize detection
+        detectionsBuffer.add(text)
+        if (detectionsBuffer.size > BUFFER_SIZE) {
+            detectionsBuffer.removeAt(0)
+        }
+
+        // Only update if we have a consensus or at least multiple detections of the same string
+        val consensus = detectionsBuffer.groupBy { it }
+            .maxByOrNull { it.value.size }
+            ?.takeIf { it.value.size >= 2 }
+            ?.key
+
+        if (consensus != null) {
+            _detectedText.value = consensus
+        }
     }
 
     private fun searchCard(name: String) {

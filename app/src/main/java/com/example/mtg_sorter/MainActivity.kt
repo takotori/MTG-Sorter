@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -106,14 +107,34 @@ fun MainScreen(viewModel: ScannerViewModel = viewModel()) {
                             .fillMaxWidth()
                             .height(100.dp)
                             .padding(top = 64.dp)
-                            .background(Color.White.copy(alpha = 0.2f))
+                            .background(Color.Transparent)
                             .padding(4.dp)
                     ) {
+                        // Corner borders for the scan window
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.White.copy(alpha = 0.1f))
+                        )
+                        
+                        // Top-left
+                        Box(modifier = Modifier.align(Alignment.TopStart).size(20.dp).background(Color.White))
+                        // Top-right
+                        Box(modifier = Modifier.align(Alignment.TopEnd).size(20.dp).background(Color.White))
+                        // Bottom-left
+                        Box(modifier = Modifier.align(Alignment.BottomStart).size(20.dp).background(Color.White))
+                        // Bottom-right
+                        Box(modifier = Modifier.align(Alignment.BottomEnd).size(20.dp).background(Color.White))
+
                         Text(
                             text = "Align Card Name Here",
                             color = Color.White,
-                            fontSize = 12.sp,
-                            modifier = Modifier.align(Alignment.Center)
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .align(Alignment.Center)
+                                .background(Color.Black.copy(alpha = 0.5f))
+                                .padding(horizontal = 8.dp, vertical = 2.dp)
                         )
                     }
                 }
