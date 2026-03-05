@@ -24,6 +24,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.IconButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -232,11 +236,29 @@ fun ScannerOverlay(viewModel: ScannerViewModel) {
                 )
                 decks.forEach { deck ->
                     val missing = deck.totalCards - deck.totalCollected
-                    Text(
-                        text = "${deck.name}: ${deck.totalCollected}/${deck.totalCards} (Missing: $missing)",
-                        color = Color.White,
-                        fontSize = 11.sp
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "${deck.name}: ${deck.totalCollected}/${deck.totalCards} (Missing: $missing)",
+                            color = Color.White,
+                            fontSize = 11.sp,
+                            modifier = Modifier.weight(1f)
+                        )
+                        IconButton(
+                            onClick = { viewModel.removeDeck(deck.id) },
+                            modifier = Modifier.size(24.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Delete,
+                                contentDescription = "Remove deck",
+                                tint = Color.White.copy(alpha = 0.7f),
+                                modifier = Modifier.size(16.dp)
+                            )
+                        }
+                    }
                 }
             }
         }

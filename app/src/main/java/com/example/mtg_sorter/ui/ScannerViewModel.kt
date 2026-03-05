@@ -10,6 +10,8 @@ import com.example.mtg_sorter.data.model.DeckMatch
 import com.example.mtg_sorter.data.model.LoadedDeck
 import com.example.mtg_sorter.data.model.MoxfieldDeckResponse
 import com.example.mtg_sorter.data.model.ScryfallCard
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,11 +20,14 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
 
 @OptIn(FlowPreview::class)
 class ScannerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val dbHelper = CardDatabaseHelper(application)
+    private val gson = Gson()
+    private val decksFile = File(application.filesDir, "loaded_decks.json")
 
     private val _detectedText = MutableStateFlow("")
     val detectedText = _detectedText.asStateFlow()
@@ -41,6 +46,7 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     val decks = _decks.asStateFlow()
 
     init {
+        loadDecks()
         viewModelScope.launch {
             detectedText
                 .debounce(150)
@@ -51,6 +57,32 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                         searchCard(text)
                     }
                 }
+        }
+        // Save decks whenever they change
+        viewModelScope.launch {
+            decks.collect { saveDecks() }
+        }
+    }
+
+    private fun loadDecks() {
+        if (decksFile.exists()) {
+            try {
+                val json = decksFile.readText()
+                val type = object : TypeToken<List<LoadedDeck>>() {}.type
+                val loadedDecks: List<LoadedDeck> = gson.fromJson(json, type)
+                _decks.value = loadedDecks
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun saveDecks() {
+        try {
+            val json = gson.toJson(_decks.value)
+            decksFile.writeText(json)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -113,7 +145,7 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                         cardTotals = totals,
                         collected = emptyMap()
                     )
-                    _decks.value = _decks.value + loaded
+                    _decks.update { it + loaded }
                 } else {
                     // Log or handle error (e.g., 404, 403)
                 }
@@ -123,6 +155,10 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
                 _isLoading.value = false
             }
         }
+    }
+
+    fun removeDeck(deckId: String) {
+        _decks.update { it.filterNot { deck -> deck.id == deckId } }
     }
 
     private fun extractDeckId(input: String): String? {
